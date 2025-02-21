@@ -9,7 +9,7 @@ const ChatPage = () => {
       setMessages([...messages, { sender: "User", text: input }]);
 
       try {
-        const response = await fetch("http://localhost:3000/chat", {
+        const response = await fetch("https://smarthome-opal.vercel.app/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

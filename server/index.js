@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -7,13 +6,13 @@ const Groq = require("groq-sdk");
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://smart-home-main-frontend.vercel.app', // Replace with your frontend's URL
+}));
 app.use(bodyParser.json());
 
-
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const MODEL_NAME = "llama-3.3-70b-versatile"; 
-
+const MODEL_NAME = "llama-3.3-70b-versatile";
 
 const energyData = [
   {
@@ -50,13 +49,11 @@ const energyData = [
   },
 ];
 
-
-app.get("/data", (req, res) => {
+app.get("/api/data", (req, res) => {
   res.json(energyData);
 });
 
-
-app.post("/chat", async (req, res) => {
+app.post("/api/chat", async (req, res) => {
   const { message } = req.body;
 
   if (!message) {
@@ -66,7 +63,7 @@ app.post("/chat", async (req, res) => {
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages: [
-        { role: "system", content: "Analyze the given energy consumption data and provide answers to the users questions. dont give any reasoning. just answer the question in a single line(not a single word)." },
+        { role: "system", content: "Analyze the given energy consumption data and provide answers to the users questions. Don't give any reasoning. Just answer the question in a single line (not a single word)." },
         { role: "user", content: `Here is the energy consumption data: ${JSON.stringify(energyData)}. ${message}` },
       ],
       model: MODEL_NAME,
@@ -80,6 +77,4 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+module.exports = app;
