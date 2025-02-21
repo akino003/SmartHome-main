@@ -4,16 +4,21 @@ const bodyParser = require("body-parser");
 const Groq = require("groq-sdk");
 
 const app = express();
-const port = 3000;
 
+// CORS Configuration
 app.use(cors({
-  origin: 'https://smart-home-main-frontend.vercel.app', // Replace with your frontend's URL
+  origin: "https://smart-home-main-frontend.vercel.app", // Allow only frontend domain
+  methods: "GET,POST,OPTIONS",
+  allowedHeaders: "Content-Type",
 }));
+
 app.use(bodyParser.json());
 
+// Initialize Groq SDK
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const MODEL_NAME = "llama-3.3-70b-versatile";
 
+// Mock Energy Consumption Data
 const energyData = [
   {
     deviceId: "device_10",
@@ -49,10 +54,17 @@ const energyData = [
   },
 ];
 
+// Health Check Route
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
+
+// Get Energy Data
 app.get("/api/data", (req, res) => {
   res.json(energyData);
 });
 
+// Handle Chat Request
 app.post("/api/chat", async (req, res) => {
   const { message } = req.body;
 
@@ -63,8 +75,8 @@ app.post("/api/chat", async (req, res) => {
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages: [
-        { role: "system", content: "Analyze the given energy consumption data and provide answers to the users questions. Don't give any reasoning. Just answer the question in a single line (not a single word)." },
-        { role: "user", content: `Here is the energy consumption data: ${JSON.stringify(energyData)}. ${message}` },
+        { role: "system", content: "Analyze energy consumption data and provide direct answers in a single line." },
+        { role: "user", content: `Here is the data: ${JSON.stringify(energyData)}. ${message}` },
       ],
       model: MODEL_NAME,
     });
@@ -76,5 +88,8 @@ app.post("/api/chat", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch response from Groq API" });
   }
 });
+
+// Handle Preflight CORS Requests
+app.options("*", cors());
 
 module.exports = app;
