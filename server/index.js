@@ -10,11 +10,11 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Initialize Groq API
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const MODEL_NAME = "llama-3.3-70b-versatile"; // Ensure this is a valid model name
 
-// Sample Energy Consumption Data
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const MODEL_NAME = "llama-3.3-70b-versatile"; 
+
+
 const energyData = [
   {
     deviceId: "device_10",
@@ -50,12 +50,12 @@ const energyData = [
   },
 ];
 
-// Endpoint to fetch energy consumption data
+
 app.get("/data", (req, res) => {
   res.json(energyData);
 });
 
-// AI Chatbot to analyze energy consumption
+
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
 
