@@ -34,7 +34,6 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      {/* Header */}
       <header className="fixed top-0 w-full bg-white shadow-sm z-50">
         <div className="flex items-center justify-between px-4 py-3">
           <button onClick={() => window.history.back()} className="text-teal-600 text-lg font-bold">
@@ -44,8 +43,6 @@ const ChatPage = () => {
           <i className="fas fa-robot text-teal-600 text-xl"></i>
         </div>
       </header>
-
-      {/* Chat container */}
       <main className="flex-1 overflow-y-auto px-4 py-4 mt-14">
         <div className="max-w-screen-sm mx-auto">
           {messages.map((message, index) => (
@@ -67,8 +64,6 @@ const ChatPage = () => {
           <div ref={chatEndRef} />
         </div>
       </main>
-
-      {/* Input area */}
       <div className="border-t bg-white px-4 py-4">
         <div className="max-w-screen-sm mx-auto flex gap-2">
           <textarea

@@ -20,7 +20,6 @@ const AIInsightsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Fixed Header */}
       <header className="fixed top-0 w-full bg-white shadow-sm z-50">
         <div className="flex items-center justify-between px-4 py-3">
           <button onClick={() => window.history.back()} className="text-teal-600 text-lg font-bold">
@@ -30,8 +29,6 @@ const AIInsightsPage = () => {
           <i className="fas fa-robot text-teal-600 text-xl"></i>
         </div>
       </header>
-
-      {/* Main Content */}
       <div className="pt-20 px-4 flex flex-col justify-center items-center">
         <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl w-full">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">

@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const HomePage = () => {
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
   const navigate = useNavigate();
 
   return (
     <div className="relative h-screen bg-gradient-to-b from-teal-50 to-white flex flex-col">
-      {/* Header */}
       <header className="absolute top-0 w-full bg-[#008388] p-4 text-white text-2xl font-bold text-center shadow-md z-20">
         SMART HOMES
       </header>
-
-      {/* Background Decoration */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <img
           src="https://public.readdy.ai/ai/img_res/771a21adb407a36ab2d870d6b1079f16.jpg"
@@ -53,6 +53,7 @@ const HomePage = () => {
       </main>
     </div>
   );
+  return <div>Query id: {id}</div>;
 };
 
 export default HomePage;
