@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 
 const AIInsightsPage = () => {
   const [summary, setSummary] = useState("");
@@ -19,22 +19,29 @@ const AIInsightsPage = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="w-full bg-[#008388] p-4 flex items-center text-white shadow-md">
-        <button onClick={() => window.history.back()} className="text-white text-lg font-bold mr-4">
-          ← 
-        </button>
-        <h1 className="text-2xl font-bold flex-grow text-center">SMART HOMES</h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Fixed Header */}
+      <header className="fixed top-0 w-full bg-white shadow-sm z-50">
+        <div className="flex items-center justify-between px-4 py-3">
+          <button onClick={() => window.history.back()} className="text-teal-600 text-lg font-bold">
+            ←
+          </button>
+          <h1 className="font-medium text-gray-800">AI Insights</h1>
+          <i className="fas fa-robot text-teal-600 text-xl"></i>
+        </div>
       </header>
 
-      {/* Insights Section */}
-      <main className="flex-grow flex flex-col justify-center items-center p-4 text-center">
-        <h2 className="text-3xl font-bold mb-4">Overall Energy Consumption Summary</h2>
-        <p className="text-lg bg-white shadow-md p-4 rounded-lg max-w-2xl">
-          {summary}
-        </p>
-      </main>
+      {/* Main Content */}
+      <div className="pt-20 px-4 flex flex-col justify-center items-center">
+        <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl w-full">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            Overall Energy Consumption Summary
+          </h2>
+          <p className="text-lg text-gray-700">
+            {summary}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

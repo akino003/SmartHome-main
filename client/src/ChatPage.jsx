@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSend = async () => {
     if (input.trim()) {
-      setMessages([...messages, { sender: "User", text: input }]);
+      setMessages((prev) => [...prev, { sender: "User", text: input }]);
 
       try {
         const response = await fetch("http://localhost:3000/chat", {
@@ -28,47 +33,59 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
+    <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
-      <header className="w-full bg-[#008388] p-4 flex items-center text-white shadow-md">
-        <button onClick={() => window.history.back()} className="text-white text-lg font-bold mr-4">
-          ← 
-        </button>
-        <h1 className="text-2xl font-bold flex-grow text-center">SMART HOMES</h1>
+      <header className="fixed top-0 w-full bg-white shadow-sm z-50">
+        <div className="flex items-center justify-between px-4 py-3">
+          <button onClick={() => window.history.back()} className="text-teal-600 text-lg font-bold">
+            ←
+          </button>
+          <h1 className="font-medium text-gray-800">Smart Assistant</h1>
+          <i className="fas fa-robot text-teal-600 text-xl"></i>
+        </div>
       </header>
 
-      {/* Chat Area */}
-      <main className="flex-grow p-4 overflow-auto">
-        <div className="space-y-2">
+      {/* Chat container */}
+      <main className="flex-1 overflow-y-auto px-4 py-4 mt-14">
+        <div className="max-w-screen-sm mx-auto">
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`${
-                message.sender === "User" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"
-              } p-2 rounded-lg w-fit max-w-[70%] ${message.sender === "User" ? "ml-auto" : "mr-auto"}`}
+              className={`flex ${message.sender === "User" ? "justify-end" : "justify-start"} mb-4`}
             >
-              {message.text}
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  message.sender === "User"
+                    ? "bg-blue-500 text-white"
+                    : "bg-white shadow-sm"
+                }`}
+              >
+                <p className="text-sm">{message.text}</p>
+              </div>
             </div>
           ))}
+          <div ref={chatEndRef} />
         </div>
       </main>
 
-      {/* Input Area */}
-      <div className="p-4 bg-white shadow-md flex">
-        <input
-          type="text"
-          className="flex-grow p-2 border rounded-lg focus:outline-none focus:ring focus:ring-green-400"
-          placeholder="Type a message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        />
-        <button
-          className="ml-2 bg-[#008388] text-white px-4 py-2 rounded-lg shadow hover:opacity-90"
-          onClick={handleSend}
-        >
-          Send
-        </button>
+      {/* Input area */}
+      <div className="border-t bg-white px-4 py-4">
+        <div className="max-w-screen-sm mx-auto flex gap-2">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+            className="w-full resize-none rounded-full px-4 py-2 pr-12 border border-gray-200 focus:outline-none focus:border-blue-500 text-sm"
+            rows={1}
+            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
+          />
+          <button
+            onClick={handleSend}
+            className="!rounded-button bg-teal-600 text-white px-6 py-2 text-sm font-medium hover:bg-teal-700 transition-colors flex items-center justify-center"
+          >
+            <i className="fas fa-paper-plane"></i>
+          </button>
+        </div>
       </div>
     </div>
   );
