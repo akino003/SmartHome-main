@@ -14,13 +14,11 @@ const HomePage = () => {
       </header>
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <img
-          src="https://public.readdy.ai/ai/img_res/771a21adb407a36ab2d870d6b1079f16.jpg"
+          src="/bg.jpg"
           className="w-full h-full object-cover opacity-10"
           alt="background pattern"
         />
       </div>
-
-      {/* Main Content */}
       <main className="flex-grow flex flex-col justify-center items-center p-8 z-10">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-teal-800 mb-3">
